@@ -10,12 +10,15 @@ import androidx.annotation.NonNull;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Country;
 import com.example.dishdash_foodplanner.model.POJO.Ingredient;
+import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.response.CategoryResponse;
 import com.example.dishdash_foodplanner.model.response.CountryResponse;
 import com.example.dishdash_foodplanner.model.response.IngredientResponse;
+import com.example.dishdash_foodplanner.model.response.MealResponse;
 import com.example.dishdash_foodplanner.network.callbacks.CategoryCallback;
 import com.example.dishdash_foodplanner.network.callbacks.CountryCallback;
 import com.example.dishdash_foodplanner.network.callbacks.IngredientCallback;
+import com.example.dishdash_foodplanner.network.callbacks.MealCallback;
 
 import java.util.List;
 
@@ -38,36 +41,27 @@ public class Client {
 
         service = retrofit.create(Service.class);
     }
-
     public static Client getInstance(){
         if (client == null){
             client = new Client();
         }
         return client;
     }
-
     public void getCategoriesList(CategoryCallback callback){
         Call<CategoryResponse> call = service.getCategoriesList();
         call.enqueue(new Callback<CategoryResponse>() {
-                         @Override
-                         public void onResponse(@NonNull Call<CategoryResponse> call, @NonNull Response<CategoryResponse> response) {
-                             if (response.isSuccessful() && response.body() != null) {
-                                 List<Category> categories = response.body().meals;
-                                 if (categories != null) {
-                                     for (Category category : categories) {
-                                         Log.i(TAG, "Category: " + category.strCategory);
-                                     }
-                                 } else {
-                                     Log.i(TAG, "onResponse: Categories list is null");
-                                 }
-                             } else {
-                                 Log.i(TAG, "onResponse: Failed to get categories");
-                             }
-                         }
+            @Override
+            public void onResponse(@NonNull Call<CategoryResponse> call, @NonNull Response<CategoryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccessCategories(response.body().meals);
+                } else {
+                    callback.onFailureCategories("Failed to get categories");
+                }
+            }
 
             @Override
             public void onFailure(@NonNull Call<CategoryResponse> call, @NonNull Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                callback.onFailureCategories(throwable.getMessage());
             }
         });
     }
@@ -78,22 +72,15 @@ public class Client {
             @Override
             public void onResponse(@NonNull Call<IngredientResponse> call, @NonNull Response<IngredientResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Ingredient> ingredients = response.body().meals;
-                    if (ingredients != null) {
-                        for (Ingredient ingredient : ingredients) {
-                            Log.i(TAG, "Ingredient: " + ingredient.strIngredient);
-                        }
-                    } else {
-                        Log.i(TAG, "onResponse: Ingredients list is null");
-                    }
+                    callback.onSuccessIngredients(response.body().meals);
                 } else {
-                    Log.i(TAG, "onResponse: Failed to get ingredients");
+                    callback.onFailureIngredients("Failed to get ingredients");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<IngredientResponse> call, @NonNull Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                callback.onFailureIngredients(throwable.getMessage());
             }
         });
     }
@@ -104,23 +91,93 @@ public class Client {
             @Override
             public void onResponse(@NonNull Call<CountryResponse> call, @NonNull Response<CountryResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Country> countries = response.body().meals;
-                    if (countries != null) {
-                        for (Country country : countries) {
-                            Log.i(TAG, "Country: " + country.strArea);
-                        }
-                    } else {
-                        Log.i(TAG, "onResponse: Countries list is null");
-                    }
+                    callback.onSuccessCountries(response.body().meals);
                 } else {
-                    Log.i(TAG, "onResponse: Failed to get countries");
+                    callback.onFailureCountries("Failed to get countries");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<CountryResponse> call, @NonNull Throwable throwable) {
-                Log.e(TAG, "onFailure: " + throwable.getMessage());
+                callback.onFailureCountries(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getRandomMeal(MealCallback callback){
+        Call<MealResponse> call = service.getRandomMeal();
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MealResponse> call, @NonNull Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccessMeals(response.body().meals);
+                } else {
+                    callback.onFailureMeals("Failed to get random meal");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MealResponse> call, @NonNull Throwable throwable) {
+                callback.onFailureMeals(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getMealsByCategory(String category, MealCallback callback){
+        Call<MealResponse> call = service.getMealsByCategory(category);
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MealResponse> call, @NonNull Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccessMeals(response.body().meals);
+                } else {
+                    callback.onFailureMeals("Failed to get meals by category");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MealResponse> call, @NonNull Throwable throwable) {
+                callback.onFailureMeals(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getMealsByIngredient(String ingredient, MealCallback callback){
+        Call<MealResponse> call = service.getMealsByIngredient(ingredient);
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MealResponse> call, @NonNull Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccessMeals(response.body().meals);
+                } else {
+                    callback.onFailureMeals("Failed to get meals by ingredient");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MealResponse> call, @NonNull Throwable throwable) {
+                callback.onFailureMeals(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getMealsByArea(String area, MealCallback callback){
+        Call<MealResponse> call = service.getMealsByArea(area);
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MealResponse> call, @NonNull Response<MealResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccessMeals(response.body().meals);
+                } else {
+                    callback.onFailureMeals("Failed to get meals by area");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MealResponse> call, @NonNull Throwable throwable) {
+                callback.onFailureMeals(throwable.getMessage());
             }
         });
     }
 }
+
