@@ -1,4 +1,4 @@
-package com.example.dishdash_foodplanner.network;
+package com.example.dishdash_foodplanner.network.APIs;
 
 
 import static android.content.ContentValues.TAG;
@@ -13,9 +13,9 @@ import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.response.CategoryResponse;
 import com.example.dishdash_foodplanner.model.response.CountryResponse;
 import com.example.dishdash_foodplanner.model.response.IngredientResponse;
-import com.example.dishdash_foodplanner.network.interfaces.CategoryCallback;
-import com.example.dishdash_foodplanner.network.interfaces.CountryCallback;
-import com.example.dishdash_foodplanner.network.interfaces.IngredientCallback;
+import com.example.dishdash_foodplanner.network.callbacks.CategoryCallback;
+import com.example.dishdash_foodplanner.network.callbacks.CountryCallback;
+import com.example.dishdash_foodplanner.network.callbacks.IngredientCallback;
 
 import java.util.List;
 

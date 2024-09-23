@@ -1,4 +1,4 @@
-package com.example.dishdash_foodplanner.network.interfaces;
+package com.example.dishdash_foodplanner.network.callbacks;
 
 import com.example.dishdash_foodplanner.model.POJO.Country;
 

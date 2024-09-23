@@ -1,4 +1,4 @@
-package com.example.dishdash_foodplanner.network;
+package com.example.dishdash_foodplanner.network.APIs;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

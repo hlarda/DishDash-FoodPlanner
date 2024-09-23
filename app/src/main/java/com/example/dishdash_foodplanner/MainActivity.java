@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Country;
 import com.example.dishdash_foodplanner.model.POJO.Ingredient;
-import com.example.dishdash_foodplanner.network.Client;
-import com.example.dishdash_foodplanner.network.NetworkUtils;
-import com.example.dishdash_foodplanner.network.interfaces.CategoryCallback;
-import com.example.dishdash_foodplanner.network.interfaces.CountryCallback;
-import com.example.dishdash_foodplanner.network.interfaces.IngredientCallback;
+import com.example.dishdash_foodplanner.network.APIs.Client;
+import com.example.dishdash_foodplanner.network.APIs.NetworkUtils;
+import com.example.dishdash_foodplanner.network.callbacks.CategoryCallback;
+import com.example.dishdash_foodplanner.network.callbacks.CountryCallback;
+import com.example.dishdash_foodplanner.network.callbacks.IngredientCallback;
 
 import java.util.List;
 
