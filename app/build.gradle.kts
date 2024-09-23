@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.dishdash_foodplanner"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,4 +40,16 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Retrofit and Gradle
+    implementation (libs.retrofit)
+    implementation (libs.gson)
+    implementation (libs.converter.gson)
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+    // Room
+    implementation (libs.room.runtime)
+    annotationProcessor (libs.room.compiler)
+    // SnackBar
+    implementation (libs.material.v140)
 }
