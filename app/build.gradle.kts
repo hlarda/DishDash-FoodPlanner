@@ -52,4 +52,7 @@ dependencies {
     annotationProcessor (libs.room.compiler)
     // SnackBar
     implementation (libs.material.v140)
+    // Lottie
+    implementation (libs.lottie)
+
 }

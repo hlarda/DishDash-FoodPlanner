@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Country;
 import com.example.dishdash_foodplanner.model.POJO.Ingredient;
@@ -29,14 +30,17 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimation);
+        lottieAnimationView.setImageAssetsFolder("images/");
+
         if (NetworkUtils.isNetworkAvailable(this)) {
-            fetchCategories();
-            fetchIngredients();
-            fetchCountries();
-            fetchRandomMeal();
-            getMealsByCategory();
-            getMealsByIngredient();
-            getMealsByArea();
+//            fetchCategories();
+//            fetchIngredients();
+//            fetchCountries();
+//            fetchRandomMeal();
+//            getMealsByCategory();
+//            getMealsByIngredient();
+//            getMealsByArea();
         } else {
             Log.e(TAG, "Network is not available");
         }
