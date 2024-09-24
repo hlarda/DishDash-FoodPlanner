@@ -15,7 +15,7 @@ import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.network.APIs.NetworkUtils;
-import com.example.dishdash_foodplanner.network.APIs.NetworkCallback;
+import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchCategories() {
-        Client.getInstance().getCategoriesList(new NetworkCallback<Category>() {
+        Client.getInstance().getCategoriesList(new AppNetworkCallback<Category>() {
             @Override
             public void onSuccess(List<Category> categories) {
                 for (Category category : categories) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchIngredients() {
-        Client.getInstance().getIngredientsList(new NetworkCallback<Ingredient>() {
+        Client.getInstance().getIngredientsList(new AppNetworkCallback<Ingredient>() {
             @Override
             public void onSuccess(List<Ingredient> ingredients) {
                 for (Ingredient ingredient : ingredients) {
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchCountries() {
-        Client.getInstance().getCountriesList(new NetworkCallback<Country>() {
+        Client.getInstance().getCountriesList(new AppNetworkCallback<Country>() {
             @Override
             public void onSuccess(List<Country> countries) {
                 for (Country country : countries) {
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchRandomMeal() {
-        Client.getInstance().getRandomMeal(new NetworkCallback<Meal>() {
+        Client.getInstance().getRandomMeal(new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> meals) {
                 for (Meal meal : meals) {
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMealsByCategory() {
-        Client.getInstance().getMealsByCategory("Seafood", new NetworkCallback<Meal>() {
+        Client.getInstance().getMealsByCategory("Seafood", new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> meals) {
                 if (meals != null && !meals.isEmpty()) {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMealsByIngredient() {
-        Client.getInstance().getMealsByIngredient("chicken_breast", new NetworkCallback<Meal>() {
+        Client.getInstance().getMealsByIngredient("chicken_breast", new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> meals) {
                 if (meals != null && !meals.isEmpty()) {
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMealsByArea() {
-        Client.getInstance().getMealsByArea("Canadian", new NetworkCallback<Meal>() {
+        Client.getInstance().getMealsByArea("Canadian", new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> meals) {
                 if (meals != null && !meals.isEmpty()) {
