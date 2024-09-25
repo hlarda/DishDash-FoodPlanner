@@ -20,6 +20,7 @@ import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategory.CategoryClickListener;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterArea.AreaClickListener;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal.MealClickListener;
+import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     private List<Area>      areas = new ArrayList<>();
     private List<Category>  categories = new ArrayList<>();
     private List<Meal>      randomList = new ArrayList<>();
+    private ItemListFragment itemListFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -101,12 +103,25 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
 
     @Override
     public void onAreaClicked(Area area) {
-        Toast.makeText(getContext(), area.strArea, Toast.LENGTH_SHORT).show();
-    }
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedArea", area.strArea);
+        itemListFragment = new ItemListFragment();
+        itemListFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, itemListFragment)
+                .addToBackStack(null)
+                .commit();    }
 
     @Override
     public void onCategoryClicked(Category category) {
-        Toast.makeText(getContext(), category.strCategory, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedCategory", category.strCategory);
+        itemListFragment = new ItemListFragment();
+        itemListFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, itemListFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

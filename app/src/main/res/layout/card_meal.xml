@@ -19,8 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
         android:background="@drawable/rounded_corners"
-        android:clipToOutline="true"
-        />
+        android:clipToOutline="true" />
 
     <TextView
         android:id="@+id/title"
@@ -28,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/meal_title"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
