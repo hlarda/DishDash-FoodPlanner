@@ -41,15 +41,12 @@ public class NavigationActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_plan) {
                      selectedFragment = new PlanFragment();
                 }
-
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.contentFrame, selectedFragment).commit();
                 }
                 return true;
             }
         });
-
-        // Set the default selected item to the home item
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
     }
 }

@@ -2,12 +2,16 @@ package com.example.dishdash_foodplanner.network.APIs;
 
 import androidx.annotation.NonNull;
 
+import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
-import com.example.dishdash_foodplanner.model.POJO.Country;
 import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
+import com.example.dishdash_foodplanner.network.response.CategoryResponse;
 import com.example.dishdash_foodplanner.network.response.NetworkResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +23,7 @@ public class Client {
     private final Service service;
     private static Client client;
 
-    private Client() {
+    public Client() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -36,19 +40,19 @@ public class Client {
     }
 
     public void getCategoriesList(AppNetworkCallback<Category> callback) {
-        Call<NetworkResponse<Category>> call = service.getCategoriesList();
-        call.enqueue(new Callback<NetworkResponse<Category>>() {
+        Call<CategoryResponse> call = service.getCategoriesList();
+        call.enqueue(new Callback<CategoryResponse>() {
             @Override
-            public void onResponse(@NonNull Call<NetworkResponse<Category>> call, @NonNull retrofit2.Response<NetworkResponse<Category>> response) {
+            public void onResponse(@NonNull Call<CategoryResponse> call, @NonNull retrofit2.Response<CategoryResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().meals);
+                    callback.onSuccess(response.body().categories);
                 } else {
                     callback.onFailure("Failed to get categories");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<NetworkResponse<Category>> call, @NonNull Throwable throwable) {
+            public void onFailure(@NonNull Call<CategoryResponse> call, @NonNull Throwable throwable) {
                 callback.onFailure(throwable.getMessage());
             }
         });
@@ -73,11 +77,11 @@ public class Client {
         });
     }
 
-    public void getCountriesList(AppNetworkCallback<Country> callback) {
-        Call<NetworkResponse<Country>> call = service.getCountriesList();
-        call.enqueue(new Callback<NetworkResponse<Country>>() {
+    public void getCountriesList(AppNetworkCallback<Area> callback) {
+        Call<NetworkResponse<Area>> call = service.getCountriesList();
+        call.enqueue(new Callback<NetworkResponse<Area>>() {
             @Override
-            public void onResponse(@NonNull Call<NetworkResponse<Country>> call, @NonNull retrofit2.Response<NetworkResponse<Country>> response) {
+            public void onResponse(@NonNull Call<NetworkResponse<Area>> call, @NonNull retrofit2.Response<NetworkResponse<Area>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().meals);
                 } else {
@@ -86,29 +90,35 @@ public class Client {
             }
 
             @Override
-            public void onFailure(@NonNull Call<NetworkResponse<Country>> call, @NonNull Throwable throwable) {
+            public void onFailure(@NonNull Call<NetworkResponse<Area>> call, @NonNull Throwable throwable) {
                 callback.onFailure(throwable.getMessage());
             }
         });
     }
 
-    public void getRandomMeal(AppNetworkCallback<Meal> callback) {
-        Call<NetworkResponse<Meal>> call = service.getRandomMeal();
-        call.enqueue(new Callback<NetworkResponse<Meal>>() {
-            @Override
-            public void onResponse(@NonNull Call<NetworkResponse<Meal>> call, @NonNull retrofit2.Response<NetworkResponse<Meal>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().meals);
-                } else {
-                    callback.onFailure("Failed to get random meal");
+    public void getRandomMeals(int count, AppNetworkCallback<Meal> callback) {
+        List<Meal> meals = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Call<NetworkResponse<Meal>> call = service.getRandomMeal();
+            call.enqueue(new Callback<NetworkResponse<Meal>>() {
+                @Override
+                public void onResponse(@NonNull Call<NetworkResponse<Meal>> call, @NonNull retrofit2.Response<NetworkResponse<Meal>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        meals.addAll(response.body().meals);
+                        if (meals.size() == count) {
+                            callback.onSuccess(meals);
+                        }
+                    } else {
+                        callback.onFailure("Failed to get random meal");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<NetworkResponse<Meal>> call, @NonNull Throwable throwable) {
-                callback.onFailure(throwable.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<NetworkResponse<Meal>> call, @NonNull Throwable throwable) {
+                    callback.onFailure(throwable.getMessage());
+                }
+            });
+        }
     }
 
     public void getMealsByCategory(String category, AppNetworkCallback<Meal> callback) {

@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">DishDash-FoodPlanner</string>
     <string name="appDes">Your ultimate meal planning companion! Explore recipes, create meal plans, and simplify your grocery shopping.</string>
+    <string name="catAndArea">Category • Area</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="meal_title">Meal Title</string>
+    <string name="picks">Picked for you</string>
+    <string name="categories">Navigate Categories</string>
+    <string name="area">Explore Global Flavors</string>
+    <string name="category_image">Category image</string>
+    <string name="category_title">Category Title</string>
 </resources>
