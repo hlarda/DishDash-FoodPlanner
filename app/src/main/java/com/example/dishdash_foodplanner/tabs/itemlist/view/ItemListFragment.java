@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.APIs.Client;
+import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.AdapterMeal;
 import com.example.dishdash_foodplanner.tabs.itemlist.presenter.ItemListPresenter;
 
@@ -29,7 +30,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
     private ItemListPresenter presenter;
     private List<Meal> meals = new ArrayList<>();
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +76,13 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
 
     @Override
     public void onMealClicked(Meal meal) {
-        Toast.makeText(getContext(), meal.strMeal, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("mealId", meal.idMeal);
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, detailsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

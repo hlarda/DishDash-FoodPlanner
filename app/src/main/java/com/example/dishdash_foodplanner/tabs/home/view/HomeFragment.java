@@ -15,6 +15,7 @@ import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.APIs.Client;
+import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategory.CategoryClickListener;
@@ -126,6 +127,13 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
 
     @Override
     public void onMealClicked(Meal meal) {
-        Toast.makeText(getContext(), meal.strMeal, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("mealId", meal.idMeal);
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, detailsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

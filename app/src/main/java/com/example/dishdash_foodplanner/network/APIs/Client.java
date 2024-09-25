@@ -177,4 +177,23 @@ public class Client {
             }
         });
     }
+
+    public void getMealById(String mealId, AppNetworkCallback<Meal> callback) {
+        Call<NetworkResponse<Meal>> call = service.getMealById(mealId);
+        call.enqueue(new Callback<NetworkResponse<Meal>>() {
+            @Override
+            public void onResponse(@NonNull Call<NetworkResponse<Meal>> call, @NonNull retrofit2.Response<NetworkResponse<Meal>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().meals);
+                } else {
+                    callback.onFailure("Failed to get meal by id");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<NetworkResponse<Meal>> call, @NonNull Throwable throwable) {
+                callback.onFailure(throwable.getMessage());
+            }
+        });
+    }
 }

@@ -9,4 +9,8 @@
     <string name="area">Explore Global Flavors</string>
     <string name="category_image">Category image</string>
     <string name="category_title">Category Title</string>
+    <string name="descryption">Descryption</string>
+    <string name="Instructions">Instructions</string>
+    <string name="Ingredients">Ingredients</string>
+    <string name="Video">Video</string>
 </resources>

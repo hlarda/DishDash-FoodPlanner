@@ -1,7 +1,6 @@
 package com.example.dishdash_foodplanner.network.APIs;
 
 import com.example.dishdash_foodplanner.model.POJO.Area;
-import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.response.CategoryResponse;
@@ -32,4 +31,7 @@ public interface Service {
 
     @GET("filter.php")
     Call<NetworkResponse<Meal>> getMealsByArea(@Query("a") String area);
+
+    @GET("lookup.php")
+    Call<NetworkResponse<Meal>> getMealById(@Query("i") String mealId);
 }

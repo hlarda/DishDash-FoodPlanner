@@ -1,0 +1,7 @@
+<resources>
+    <item name="ingredients_label" type="id"/>
+    <item name="ingredients_list" type="id"/>
+    <item name="instructions_label" type="id"/>
+    <item name="instructions" type="id"/>
+    <item name="youtube_link" type="id"/>
+</resources>
