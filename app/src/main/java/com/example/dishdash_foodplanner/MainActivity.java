@@ -2,8 +2,10 @@ package com.example.dishdash_foodplanner;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button getStartedBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +34,20 @@ public class MainActivity extends AppCompatActivity {
         LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimation);
         lottieAnimationView.setImageAssetsFolder("images/");
 
+        getStartedBtn = findViewById(R.id.startButton);
+        getStartedBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NavigationActivity.class);
+            startActivity(intent);
+        });
+
         if (NetworkUtils.isNetworkAvailable(this)) {
-            fetchCategories();
-            fetchIngredients();
-            fetchCountries();
-            fetchRandomMeal();
-            getMealsByCategory();
-            getMealsByIngredient();
-            getMealsByArea();
+//            fetchCategories();
+//            fetchIngredients();
+//            fetchCountries();
+//            fetchRandomMeal();
+//            getMealsByCategory();
+//            getMealsByIngredient();
+//            getMealsByArea();
         } else {
             Log.e(TAG, "Network is not available");
         }
