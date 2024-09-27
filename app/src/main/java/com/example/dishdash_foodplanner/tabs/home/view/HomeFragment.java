@@ -1,10 +1,14 @@
 package com.example.dishdash_foodplanner.tabs.home.view;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
@@ -44,7 +49,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(this, new Client());
+        presenter = new HomePresenter(this, new Repository(getContext()));
         presenter.loadAreas();
         presenter.loadCategories();
         presenter.loadRandomMeals();
@@ -99,7 +104,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "showError: " + error);
     }
 
     @Override
@@ -136,4 +141,10 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
                 .addToBackStack(null)
                 .commit();
     }
+    public void reloadData() {
+        presenter.loadAreas();
+        presenter.loadCategories();
+        presenter.loadRandomMeals();
+    }
+
 }

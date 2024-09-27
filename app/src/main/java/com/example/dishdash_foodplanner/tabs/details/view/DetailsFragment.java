@@ -110,4 +110,15 @@ public class DetailsFragment extends Fragment implements DetailsView {
     public void showError(String error) {
         Log.i(TAG, "showError: " + error);
     }
+
+    public void reloadData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String mealId = bundle.getString("mealId");
+            if (mealId != null) {
+                presenter.loadMealDetails(mealId);
+            }
+        }
+    }
+
 }

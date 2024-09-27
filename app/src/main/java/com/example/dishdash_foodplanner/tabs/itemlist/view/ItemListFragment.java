@@ -1,5 +1,7 @@
 package com.example.dishdash_foodplanner.tabs.itemlist.view;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -7,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +75,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "showError: " + error);
     }
 
     @Override
@@ -85,4 +89,19 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
                 .addToBackStack(null)
                 .commit();
     }
+
+    public void reloadData() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String selectedCategory = bundle.getString("selectedCategory");
+            String selectedArea = bundle.getString("selectedArea");
+
+            if (selectedCategory != null) {
+                presenter.loadMealsByCategory(selectedCategory);
+            } else if (selectedArea != null) {
+                presenter.loadMealsByArea(selectedArea);
+            }
+        }
+    }
+
 }
