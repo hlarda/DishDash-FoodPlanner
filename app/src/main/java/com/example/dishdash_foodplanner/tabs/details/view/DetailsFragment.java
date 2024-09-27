@@ -22,8 +22,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.presenter.DetailsPresenter;
+import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 
 public class DetailsFragment extends Fragment implements DetailsView {
 
@@ -46,7 +48,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
         thumbnail = view.findViewById(R.id.thumbnail);
         backBtn = view.findViewById(R.id.backBtn);
 
-        presenter = new DetailsPresenter(this, new Client());
+        presenter = new DetailsPresenter(this,new Repository(getContext()));
 
         Bundle bundle = getArguments();
         if (bundle != null) {

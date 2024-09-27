@@ -1,6 +1,7 @@
 package com.example.dishdash_foodplanner.tabs.itemlist.presenter;
 
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListView;
@@ -9,14 +10,14 @@ import java.util.List;
 
 public class ItemListPresenter {
     private final ItemListView view;
-    private final Client client;
+    private final Repository repository;
 
-    public ItemListPresenter(ItemListView view, Client client) {
+    public ItemListPresenter(ItemListView view, Repository repository) {
         this.view = view;
-        this.client = client;
+        this.repository = repository;
     }
     public void loadMealsByCategory(String category) {
-        client.getMealsByCategory(category, new AppNetworkCallback<Meal>() {
+        repository.getMealsByCategory(category, new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> response) {
                 view.showMealList(response);
@@ -28,7 +29,7 @@ public class ItemListPresenter {
         });
     }
     public void loadMealsByArea(String area) {
-        client.getMealsByArea(area, new AppNetworkCallback<Meal>() {
+        repository.getMealsByArea(area, new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> response) {
                 view.showMealList(response);

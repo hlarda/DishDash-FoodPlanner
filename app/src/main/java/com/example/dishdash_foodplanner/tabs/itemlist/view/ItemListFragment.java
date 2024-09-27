@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.AdapterMeal;
@@ -40,7 +41,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        presenter     = new ItemListPresenter(this, new Client());
+        presenter     = new ItemListPresenter(this, new Repository(getContext()));
 
         itemlistTitle = view.findViewById(R.id.itemlist_title);
         recyclerView  = view.findViewById(R.id.itemList);

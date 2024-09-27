@@ -1,25 +1,25 @@
 package com.example.dishdash_foodplanner.tabs.home.presenter;
 
+import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.tabs.home.view.HomeView;
 import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
-import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
 
 import java.util.List;
 
 public class HomePresenter {
     private final HomeView view;
-    private final Client client;
+    private final Repository repository;
 
-    public HomePresenter(HomeView view, Client client) {
+    public HomePresenter(HomeView view, Repository repository) {
         this.view = view;
-        this.client = client;
+        this.repository = repository;
     }
 
     public void loadAreas() {
-        client.getCountriesList(new AppNetworkCallback<Area>() {
+        repository.getAreas(new AppNetworkCallback<Area>() {
             @Override
             public void onSuccess(List<Area> response) {
                 view.showAreas(response);
@@ -33,7 +33,7 @@ public class HomePresenter {
     }
 
     public void loadCategories() {
-        client.getCategoriesList(new AppNetworkCallback<Category>() {
+        repository.getCategories(new AppNetworkCallback<Category>() {
             @Override
             public void onSuccess(List<Category> response) {
                 view.showCategories(response);
@@ -47,7 +47,7 @@ public class HomePresenter {
     }
 
     public void loadRandomMeals() {
-        client.getRandomMeals(10,new AppNetworkCallback<Meal>() {
+        repository.getRandomMeals(10, new AppNetworkCallback<Meal>() {
             @Override
             public void onSuccess(List<Meal> response) {
                 view.showRandomList(response);
