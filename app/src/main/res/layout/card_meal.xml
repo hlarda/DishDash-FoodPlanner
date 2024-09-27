@@ -19,7 +19,8 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
         android:background="@drawable/rounded_corners"
-        android:clipToOutline="true" />
+        android:clipToOutline="true"
+        />
 
     <TextView
         android:id="@+id/title"

@@ -12,14 +12,14 @@
 
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="254dp"
-            android:layout_height="269dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners"
+            android:layout_width="0dp"
+            android:layout_height="385dp"
+            android:background="@drawable/rounded_corners_moottt"
             android:clipToOutline="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/thumbnail"
             tools:text="Recipe Name" />
 
         <TextView
@@ -49,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/thumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="Chicken | Japanese" />
 
         <TextView
@@ -160,7 +160,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cartbtn"
-            app:layout_constraintTop_toBottomOf="@+id/thumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             app:srcCompat="@drawable/calender" />
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/thumbnail"
+            app:srcCompat="@drawable/back" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

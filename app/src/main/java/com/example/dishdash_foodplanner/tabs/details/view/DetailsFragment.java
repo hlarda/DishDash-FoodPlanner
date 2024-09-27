@@ -1,5 +1,7 @@
 package com.example.dishdash_foodplanner.tabs.details.view;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.WebView;
@@ -28,6 +31,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
     private TextView title, categoryArea, ingredientsList, instructions;
     private WebView videoView;
     private ImageView thumbnail;
+    private ImageView backBtn;
 
     @Nullable
     @Override
@@ -40,6 +44,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
         instructions = view.findViewById(R.id.instructions);
         videoView = view.findViewById(R.id.videoView);
         thumbnail = view.findViewById(R.id.thumbnail);
+        backBtn = view.findViewById(R.id.backBtn);
 
         presenter = new DetailsPresenter(this, new Client());
 
@@ -50,6 +55,8 @@ public class DetailsFragment extends Fragment implements DetailsView {
                 presenter.loadMealDetails(mealId);
             }
         }
+
+        backBtn.setOnClickListener(v -> getActivity().onBackPressed());
 
         return view;
     }
@@ -101,6 +108,6 @@ public class DetailsFragment extends Fragment implements DetailsView {
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "showError: " + error);
     }
 }
