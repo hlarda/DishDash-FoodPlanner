@@ -12,7 +12,7 @@ import com.example.dishdash_foodplanner.model.POJO.Meal;
 import java.util.List;
 
 @Dao
-public interface MealDAO {
+public interface MealSaveDAO {
     @Query("SELECT * FROM fav_meals_table")
     LiveData<List<Meal>> getMeals();
 

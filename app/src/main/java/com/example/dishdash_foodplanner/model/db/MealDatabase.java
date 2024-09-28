@@ -12,7 +12,7 @@ import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 @Database(entities = {Meal.class, MealPlan.class},version = 1)
 public abstract class MealDatabase extends RoomDatabase {
     private static MealDatabase instance = null;
-    public abstract MealDAO getMealDAO();
+    public abstract MealSaveDAO getMealDAO();
     public abstract MealPlanDAO getMealPlanDAO();
 
     public static synchronized MealDatabase getInstance(Context context){

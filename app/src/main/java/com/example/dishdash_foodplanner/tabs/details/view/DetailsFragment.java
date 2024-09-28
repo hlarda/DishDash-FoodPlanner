@@ -33,7 +33,8 @@ public class DetailsFragment extends Fragment implements DetailsView {
     private TextView title, categoryArea, ingredientsList, instructions;
     private WebView videoView;
     private ImageView thumbnail;
-    private ImageView backBtn;
+    private ImageView backBtn,saveBtn;
+    private Meal currentMeal;
 
     @Nullable
     @Override
@@ -47,6 +48,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
         videoView = view.findViewById(R.id.videoView);
         thumbnail = view.findViewById(R.id.thumbnail);
         backBtn = view.findViewById(R.id.backBtn);
+        saveBtn = view.findViewById(R.id.saveBtn);
 
         presenter = new DetailsPresenter(this,new Repository(getContext()));
 
@@ -59,6 +61,13 @@ public class DetailsFragment extends Fragment implements DetailsView {
         }
 
         backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        saveBtn.setOnClickListener(v -> {
+            if(currentMeal != null)
+            {
+                presenter.saveMeal(currentMeal);
+                Toast.makeText(getContext(), "Meal saved", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
@@ -66,6 +75,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
     @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
     @Override
     public void showMealDetails(Meal meal) {
+        currentMeal = meal;
         Glide.with(getContext()).load(meal.strMealThumb)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(thumbnail);

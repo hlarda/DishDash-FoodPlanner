@@ -30,4 +30,8 @@ public class DetailsPresenter {
             }
         });
     }
+
+    public void saveMeal(Meal meal) {
+        repository.insertSavedMeal(meal);
+    }
 }

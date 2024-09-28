@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.example.dishdash_foodplanner.network.APIs.NetworkChangeReceiver;
 import com.example.dishdash_foodplanner.tabs.cart.view.CartFragment;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
-import com.example.dishdash_foodplanner.tabs.favourite.view.FavoritesFragment;
 import com.example.dishdash_foodplanner.tabs.home.view.HomeFragment;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
 import com.example.dishdash_foodplanner.tabs.plan.view.PlanFragment;
+import com.example.dishdash_foodplanner.tabs.saved.view.SavedMealsFragment;
 import com.example.dishdash_foodplanner.tabs.search.view.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.os.Handler;
@@ -93,7 +93,7 @@ public class NavigationActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_cart) {
             selectedFragment = new CartFragment();
         } else if (itemId == R.id.nav_fav) {
-            selectedFragment = new FavoritesFragment();
+            selectedFragment = new SavedMealsFragment();
         } else if (itemId == R.id.nav_plan) {
             selectedFragment = new PlanFragment();
         }
@@ -102,6 +102,8 @@ public class NavigationActivity extends AppCompatActivity {
             try {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.contentFrame, selectedFragment)
+                        //Solved the issue of overlapping fragments
+                        .addToBackStack(null)
                         .commit();
             } catch (IllegalStateException e) {
                 getSupportFragmentManager().beginTransaction()
