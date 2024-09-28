@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
     private TextView itemlistTitle;
     private RecyclerView recyclerView;
     private AdapterMeal mealAdapter;
+    ImageView backBtn;
     private ItemListPresenter presenter;
     private List<Meal> meals = new ArrayList<>();
 
@@ -62,7 +64,10 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
                 presenter.loadMealsByArea(selectedArea);
             }
         }
-
+        backBtn = view.findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> {
+            getActivity().getSupportFragmentManager().popBackStack();
+        });
         return view;
     }
 
