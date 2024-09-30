@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
@@ -13,6 +14,7 @@ import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.tabs.plan.view.PlanView;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,13 +30,31 @@ public class PlanPresenter {
     }
 
     public void loadPlansForDate(Date date) {
-        repository.getPlansForDate(date).observe(lifecycleOwner, mealPlans -> {
-            Log.d(TAG, "Meal plans for date: " + date + " -> " + mealPlans);
-            if (mealPlans != null && !mealPlans.isEmpty()) {
+        // Create Calendar instance for the selected day
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
-                view.showPlannedMeals(mealPlans);
-            } else {
-                view.showError("No meals planned for this date.");
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date startOfDay = calendar.getTime();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date endOfDay = calendar.getTime();
+
+        LiveData<List<MealPlan>> plannedMeals = repository.getPlansForDate(startOfDay, endOfDay);
+        plannedMeals.observeForever(new Observer<List<MealPlan>>() {
+            @Override
+            public void onChanged(List<MealPlan> mealPlans) {
+                if (mealPlans != null && !mealPlans.isEmpty()) {
+                    view.showPlannedMeals(mealPlans);
+                } else {
+                    view.showError("No meals planned for this day");
+                }
             }
         });
     }

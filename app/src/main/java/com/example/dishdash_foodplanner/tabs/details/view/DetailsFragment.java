@@ -29,6 +29,7 @@ import com.example.dishdash_foodplanner.tabs.details.presenter.DetailsPresenter;
 import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class DetailsFragment extends Fragment implements DetailsView {
 
@@ -145,10 +146,9 @@ public class DetailsFragment extends Fragment implements DetailsView {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getContext(),
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    Calendar selectedDate = Calendar.getInstance();
-                    selectedDate.set(selectedYear, selectedMonth, selectedDay);
+                getContext(), (view, selectedYear, selectedMonth, selectedDay) -> {
+                    calendar.set(selectedYear, selectedMonth, selectedDay);
+                    Date selectedDate = calendar.getTime();
 
                     String formattedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
                     presenter.scheduleMeal(currentMeal,selectedDate);

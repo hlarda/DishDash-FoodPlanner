@@ -1,4 +1,5 @@
 package com.example.dishdash_foodplanner.tabs.plan.view;
+
 import static android.content.ContentValues.TAG;
 
 import com.example.dishdash_foodplanner.R;
@@ -22,6 +23,7 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,52 +40,77 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
 
-        calendarView = view.findViewById(R.id.calendarView);
         backBtn = view.findViewById(R.id.backBtn);
-        recyclerView= view.findViewById(R.id.planList);
+        recyclerView = view.findViewById(R.id.planList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        backBtn = view.findViewById(R.id.backBtn);
+        calendarView = view.findViewById(R.id.calendarView);
+        calendarView.setOnDateChangeListener((view1, year, month, day) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            Date selectedDate = calendar.getTime();
+            presenter.loadPlansForDate(selectedDate);
+        });
+
         backBtn.setOnClickListener(v -> {
             getActivity().getSupportFragmentManager().popBackStack();
         });
 
         presenter = new PlanPresenter(this, new Repository(getContext()), getViewLifecycleOwner());
-        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            selectedDate = Date.from(LocalDate.of(year, month + 1, dayOfMonth).atStartOfDay().toInstant(java.time.ZoneOffset.UTC));
-            Log.d(TAG, "Selected date: " + selectedDate.toString());
-            presenter.loadPlansForDate(selectedDate);
-        });
+
+        // Get the current date and load the plans for it
+        selectedDate = new Date();
+        presenter.loadPlansForDate(selectedDate);
+
         return view;
     }
 
     @Override
     public void showPlannedMeals(List<MealPlan> mealPlans) {
         Log.d(TAG, "Planned meals size: " + mealPlans.size());
-        List<Meal> meals = mealPlans.stream().map(plan -> {
-            Meal meal = new Meal();
-            meal.idMeal = plan.mealId;
-            meal.strMeal = plan.mealName;
-            meal.strMealThumb = plan.imageUrl;
-            meal.strCategory = plan.category;
-            meal.strArea = plan.area;
-            return meal;
-        }).collect(Collectors.toList());
-        adapter = new PlanAdapter(getContext(), meals, this);
-        recyclerView.setAdapter(adapter);
+
+        // Always clear the current adapter before loading new data
+        if (adapter != null) {
+            adapter.clearMealPlans();
+        }
+
+        if (mealPlans == null || mealPlans.isEmpty()) {
+            Log.d(TAG, "No meals for the selected date.");
+            return;
+        }
+
+        // Set new data to the adapter
+        if (adapter == null) {
+            adapter = new PlanAdapter(getContext(), mealPlans, this);
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.updateMealPlans(mealPlans);
+        }
+    }
+
+    @Override
+    public void onRemoveFromPlanClicked(MealPlan mealPlan) {
+        presenter.removeMealFromDate(mealPlan);
+        Log.d(TAG, "onRemoveFromPlanClicked: " + mealPlan.strMeal);
+
+        if (adapter != null) {
+            adapter.clearMealPlans();
+        }
+
+        presenter.loadPlansForDate(selectedDate);
     }
 
 
     @Override
     public void showError(String error) {
         Log.i(TAG, "showError: " + error);
-    }
-
-    @Override
-    public void onRemoveFromPlanClicked(Meal meal) {
-        presenter.removeMealFromDate(new MealPlan(meal, selectedDate));
-        Log.d(TAG, "onRemoveFromPlanClicked: " + meal.strMeal);
     }
 
     @Override

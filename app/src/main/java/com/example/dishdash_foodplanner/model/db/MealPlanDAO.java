@@ -9,6 +9,7 @@ import androidx.room.Query;
 
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -22,6 +23,8 @@ public interface MealPlanDAO {
     @Delete
     void deleteMealPlan(MealPlan mealPlan);
 
-    @Query("SELECT * FROM meal_plan_table WHERE strftime('%Y-%m-%d', date / 1000, 'unixepoch') = :selectedDate")
-    LiveData<List<MealPlan>> getMealPlansForDate(String selectedDate);
+
+    @Query("SELECT * FROM meal_plan_table WHERE date BETWEEN :startOfDay AND :endOfDay")
+    LiveData<List<MealPlan>> getMealForDay(Date startOfDay, Date endOfDay);
+
 }

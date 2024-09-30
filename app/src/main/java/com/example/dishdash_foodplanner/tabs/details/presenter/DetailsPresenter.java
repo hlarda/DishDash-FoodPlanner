@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
@@ -45,16 +46,17 @@ public class DetailsPresenter {
         repository.insertSavedMeal(meal);
     }
 
-    public void scheduleMeal(Meal meal, Calendar selectedDate) {
-        // Set time to midnight (00:00:00) to strip time component
-        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
-        selectedDate.set(Calendar.MINUTE, 0);
-        selectedDate.set(Calendar.SECOND, 0);
-        selectedDate.set(Calendar.MILLISECOND, 0);
-        long timestamp = selectedDate.getTimeInMillis();
-        Log.i(TAG, "scheduleMeal in details presenter: " + timestamp);
-
-        // Insert meal with the adjusted date
-        repository.scheduleMealForDate(meal, new Date(timestamp));
+    public void scheduleMeal(Meal meal, Date selectedDate) {
+        MealPlan mealPlan = new MealPlan(
+                selectedDate, meal.idMeal, meal.strMeal,
+                meal.strCategory, meal.strArea,
+                meal.strInstructions,
+                meal.strMealThumb,
+                meal.strTags,
+                meal.strYoutube,
+                meal.strIngredient1, meal.strIngredient2, meal.strIngredient3, meal.strIngredient4, meal.strIngredient5, meal.strIngredient6, meal.strIngredient7, meal.strIngredient8, meal.strIngredient9, meal.strIngredient10,
+                meal.strMeasure1, meal.strMeasure2, meal.strMeasure3, meal.strMeasure4, meal.strMeasure5, meal.strMeasure6, meal.strMeasure7, meal.strMeasure8, meal.strMeasure9, meal.strMeasure10
+        );
+        repository.scheduleMealForDate(mealPlan);
     }
 }

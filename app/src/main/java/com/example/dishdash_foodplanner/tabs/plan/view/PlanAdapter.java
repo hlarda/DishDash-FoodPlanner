@@ -17,19 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
-import com.example.dishdash_foodplanner.tabs.plan.view.PlanListener;
+import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.SavedViewHolder> {
 
     private final Context context;
-    private final List<Meal> meals;
+    private List<MealPlan> mealPlans;
     private final PlanListener listener;
 
-    public PlanAdapter(Context context, List<Meal> meals, PlanListener listener) {
+    public PlanAdapter(Context context, List<MealPlan> mealPlans, PlanListener listener) {
         this.context = context;
-        this.meals = meals;
+        this.mealPlans = mealPlans;
         this.listener = listener;
     }
 
@@ -42,28 +43,29 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.SavedViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull SavedViewHolder holder, int position) {
-        Meal meal = meals.get(position);
-        holder.title.setText(meal.strMeal);
-        holder.categoryArea.setText(meal.strCategory + " | " + meal.strArea);
-        Glide.with(context).load(meal.strMealThumb)
+        MealPlan mealPlan = mealPlans.get(position);
+        holder.title.setText(mealPlan.strMeal);
+        holder.categoryArea.setText(mealPlan.strCategory + " | " + mealPlan.strArea);
+        holder.date.setText(mealPlan.date.toString());
+        Glide.with(context).load(mealPlan.strMealThumb)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.thumbnail);
         holder.removeFromPlanned.setOnClickListener(v -> {
-            Log.d(TAG, "Remove button clicked for meal: " + meal.strMeal);
-            listener.onRemoveFromPlanClicked(meal);
+            Log.d(TAG, "Remove button clicked for mealPlan: " + mealPlan.strMeal);
+            listener.onRemoveFromPlanClicked(mealPlan);
         });
-        holder.itemView.setOnClickListener(v -> listener.onMealClicked(meal));
     }
 
     @Override
     public int getItemCount() {
-        return meals.size();
+        return mealPlans != null ? mealPlans.size() : 0;
     }
 
     public static class SavedViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
         TextView title;
         TextView categoryArea;
+        TextView date;
         ImageView removeFromPlanned;
 
         public SavedViewHolder(@NonNull View itemView) {
@@ -72,6 +74,19 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.SavedViewHolde
             title = itemView.findViewById(R.id.title);
             categoryArea = itemView.findViewById(R.id.category_area);
             removeFromPlanned = itemView.findViewById(R.id.deleteBtn);
+            date = itemView.findViewById(R.id.date);
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateMealPlans(List<MealPlan> newMealPlans) {
+        this.mealPlans = newMealPlans;
+        notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void clearMealPlans() {
+        this.mealPlans = new ArrayList<>();
+        notifyDataSetChanged();
     }
 }

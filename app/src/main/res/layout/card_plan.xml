@@ -38,14 +38,26 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="category_area" />
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/category_area"
+        app:layout_constraintTop_toBottomOf="@+id/category_area"
+        tools:text="Date" />
+
     <ImageView
         android:id="@+id/deleteBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date"
         app:srcCompat="@drawable/remove_plan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

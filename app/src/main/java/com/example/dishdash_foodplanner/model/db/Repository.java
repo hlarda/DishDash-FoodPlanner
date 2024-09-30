@@ -52,17 +52,6 @@ public class Repository {
         executorService.execute(() -> mealSaveDAO.deleteMeal(meal));
     }
 
-    public LiveData<List<MealPlan>> getMealPlans() {
-        return mealPlanDAO.getMealPlans();
-    }
-
-    public void insertMealPlan(MealPlan mealPlan) {
-        executorService.execute(() -> mealPlanDAO.insert(mealPlan));
-    }
-
-    public void deleteMealPlan(MealPlan mealPlan) {
-        executorService.execute(() -> mealPlanDAO.deleteMealPlan(mealPlan));
-    }
     public void getAreas(AppNetworkCallback<Area> callback) {
         client.getCountriesList(callback);
     }
@@ -74,46 +63,28 @@ public class Repository {
     public void getRandomMeals(int count, AppNetworkCallback<Meal> callback) {
         client.getRandomMeals(count, callback);
     }
+
     public void getMealById(String mealId, AppNetworkCallback<Meal> callback) {
         client.getMealById(mealId, callback);
     }
+
     public void getMealsByCategory(String category, AppNetworkCallback<Meal> callback) {
         client.getMealsByCategory(category, callback);
     }
+
     public void getMealsByArea(String area, AppNetworkCallback<Meal> callback) {
         client.getMealsByArea(area, callback);
     }
-    public void scheduleMealForDate(Meal meal, Date date) {
-        Date strippedDate = stripTimeFromDate(date);
-        Log.d(TAG, "Scheduling meal: " + meal.strMeal + " on date: " + strippedDate);
 
-        executorService.execute(() -> {
-            MealPlan plan = new MealPlan(meal, strippedDate);
-            mealPlanDAO.insert(plan);
-            Log.d(TAG, "MealPlan inserted for date: " + strippedDate);
-        });
-    }
-    private Date stripTimeFromDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+    public void scheduleMealForDate(MealPlan mealPlan) {
+        executorService.execute(() -> mealPlanDAO.insert(mealPlan));
     }
 
-    public LiveData<List<MealPlan>> getPlansForDate(Date selectedDate) {
-        String dateString = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(selectedDate);
-        Log.d(TAG, "Querying meal plans for date: " + dateString);
-        return mealPlanDAO.getMealPlansForDate(dateString);
+    public LiveData<List<MealPlan>> getPlansForDate(Date startOfDay, Date endOfDay) {
+        return mealPlanDAO.getMealForDay(startOfDay, endOfDay);
     }
 
-    public void deleteMealPlan(Meal meal, Date selectedDate) {
-        executorService.execute(() -> {
-            MealPlan plan = new MealPlan(meal, stripTimeFromDate(selectedDate));
-            Log.d(TAG, "Repo MealPlan: " + plan);
-            mealPlanDAO.deleteMealPlan(plan);
-        });
+    public void deleteMealPlan(MealPlan mealPlan) {
+        executorService.execute(() -> mealPlanDAO.deleteMealPlan(mealPlan));
     }
 }
