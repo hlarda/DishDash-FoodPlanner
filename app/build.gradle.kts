@@ -58,4 +58,6 @@ dependencies {
     implementation (libs.lottie)
     // Gson for Meal type conversion
     implementation (libs.gson.v288)
+
+    implementation(libs.cardview)
 }

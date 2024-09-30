@@ -16,4 +16,5 @@
     <string name="SavedMeals">Saved Meals</string>
     <string name="Plans">Plans</string>
     <string name="OnThisDay">On This Day</string>
+    <string name="RecipeName">Recipe Name</string>
 </resources>

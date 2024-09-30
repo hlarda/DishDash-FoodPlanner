@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.dishdash_foodplanner.R;
@@ -33,6 +34,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
     ImageView backBtn;
     private ItemListPresenter presenter;
     private List<Meal> meals = new ArrayList<>();
+    private ProgressBar progressBar;
 
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Nullable
@@ -43,10 +45,14 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
         presenter     = new ItemListPresenter(this, new Repository(getContext()));
 
         itemlistTitle = view.findViewById(R.id.title);
+
         recyclerView  = view.findViewById(R.id.itemList);
         mealAdapter   = new AdapterMeal(getContext(), meals,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(mealAdapter);
+
+        progressBar   = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -71,6 +77,8 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void showMealList(List<Meal> randomList) {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         meals.clear();
         meals.addAll(randomList);
         mealAdapter.notifyDataSetChanged();

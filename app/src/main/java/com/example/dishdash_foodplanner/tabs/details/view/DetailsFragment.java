@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.webkit.WebView;
@@ -39,8 +40,9 @@ public class DetailsFragment extends Fragment implements DetailsView {
     private ImageView thumbnail;
     private ImageView backBtn, saveBtn, planBtn;
     private Meal currentMeal;
+    private ProgressBar progressBar;
+    private TextView ingredients_label, instructions_label, video;
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
@@ -54,8 +56,13 @@ public class DetailsFragment extends Fragment implements DetailsView {
         backBtn = view.findViewById(R.id.backBtn);
         saveBtn = view.findViewById(R.id.saveBtn);
         planBtn = view.findViewById(R.id.planBtn);
+        progressBar = view.findViewById(R.id.progressBar);
 
-        presenter = new DetailsPresenter(this,new Repository(getContext()));
+        ingredients_label = view.findViewById(R.id.ingredients_label);
+        instructions_label = view.findViewById(R.id.instructions_label);
+        video = view.findViewById(R.id.video);
+
+        presenter = new DetailsPresenter(this, new Repository(getContext()));
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -67,8 +74,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
 
         backBtn.setOnClickListener(v -> getActivity().onBackPressed());
         saveBtn.setOnClickListener(v -> {
-            if(currentMeal != null)
-            {
+            if (currentMeal != null) {
                 presenter.saveMeal(currentMeal);
                 Toast.makeText(getContext(), "Meal saved", Toast.LENGTH_SHORT).show();
             }
@@ -78,10 +84,23 @@ public class DetailsFragment extends Fragment implements DetailsView {
         return view;
     }
 
+
     @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
     @Override
     public void showMealDetails(Meal meal) {
         currentMeal = meal;
+        progressBar.setVisibility(View.GONE);
+        thumbnail.setVisibility(View.VISIBLE);
+        categoryArea.setVisibility(View.VISIBLE);
+        ingredientsList.setVisibility(View.VISIBLE);
+        instructions.setVisibility(View.VISIBLE);
+        videoView.setVisibility(View.VISIBLE);
+        saveBtn.setVisibility(View.VISIBLE);
+        planBtn.setVisibility(View.VISIBLE);
+        ingredients_label.setVisibility(View.VISIBLE);
+        instructions_label.setVisibility(View.VISIBLE);
+        video.setVisibility(View.VISIBLE);
+
         Glide.with(getContext()).load(meal.strMealThumb)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(thumbnail);
