@@ -59,6 +59,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
         if (bundle != null) {
             String selectedCategory = bundle.getString("selectedCategory");
             String selectedArea = bundle.getString("selectedArea");
+            String selectedIngredient = bundle.getString("selectedIngredient");
 
             if (selectedCategory != null) {
                 itemlistTitle.setText("Top " + selectedCategory+ " Dishes" );
@@ -66,6 +67,10 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
             } else if (selectedArea != null) {
                 itemlistTitle.setText("Top " + selectedArea + " Cuisine");
                 presenter.loadMealsByArea(selectedArea);
+            } else if (selectedIngredient != null) {
+                itemlistTitle.setText("Made With " + selectedIngredient);
+                presenter.loadMealsByIngredient(selectedIngredient);
+
             }
         }
         backBtn = view.findViewById(R.id.backBtn);

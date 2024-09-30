@@ -40,4 +40,16 @@ public class ItemListPresenter {
             }
         });
     }
+    public void loadMealsByIngredient(String ingredient) {
+        repository.getMealsByIngredient(ingredient, new AppNetworkCallback<Meal>() {
+            @Override
+            public void onSuccess(List<Meal> response) {
+                view.showMealList(response);
+            }
+            @Override
+            public void onFailure(String error) {
+                view.showError(error);
+            }
+        });
+    }
 }
