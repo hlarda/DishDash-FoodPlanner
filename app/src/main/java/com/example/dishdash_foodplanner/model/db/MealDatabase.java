@@ -5,11 +5,14 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
-@Database(entities = {Meal.class, MealPlan.class},version = 1)
+@Database(entities = {Meal.class, MealPlan.class},version = 2)
+@TypeConverters(Converters.class)
+
 public abstract class MealDatabase extends RoomDatabase {
     private static MealDatabase instance = null;
     public abstract MealSaveDAO getMealDAO();

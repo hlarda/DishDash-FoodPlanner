@@ -56,5 +56,6 @@ dependencies {
     implementation (libs.material.v140)
     // Lottie
     implementation (libs.lottie)
-
+    // Gson for Meal type conversion
+    implementation (libs.gson.v288)
 }

@@ -21,4 +21,7 @@ public interface MealPlanDAO {
 
     @Delete
     void deleteMealPlan(MealPlan mealPlan);
+
+    @Query("SELECT * FROM meal_plan_table WHERE strftime('%Y-%m-%d', date / 1000, 'unixepoch') = :selectedDate")
+    LiveData<List<MealPlan>> getMealPlansForDate(String selectedDate);
 }

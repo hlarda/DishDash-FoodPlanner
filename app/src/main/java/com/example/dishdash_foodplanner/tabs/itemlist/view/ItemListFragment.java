@@ -16,14 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.db.Repository;
-import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
-import com.example.dishdash_foodplanner.tabs.itemlist.view.AdapterMeal;
 import com.example.dishdash_foodplanner.tabs.itemlist.presenter.ItemListPresenter;
 
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class ItemListFragment extends Fragment implements ItemListView, AdapterM
 
         presenter     = new ItemListPresenter(this, new Repository(getContext()));
 
-        itemlistTitle = view.findViewById(R.id.itemlist_title);
+        itemlistTitle = view.findViewById(R.id.title);
         recyclerView  = view.findViewById(R.id.itemList);
         mealAdapter   = new AdapterMeal(getContext(), meals,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

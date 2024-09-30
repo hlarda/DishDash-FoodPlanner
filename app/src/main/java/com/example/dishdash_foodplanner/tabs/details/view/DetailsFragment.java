@@ -3,6 +3,7 @@ package com.example.dishdash_foodplanner.tabs.details.view;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,13 +28,15 @@ import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.presenter.DetailsPresenter;
 import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 
+import java.util.Calendar;
+
 public class DetailsFragment extends Fragment implements DetailsView {
 
     private DetailsPresenter presenter;
     private TextView title, categoryArea, ingredientsList, instructions;
     private WebView videoView;
     private ImageView thumbnail;
-    private ImageView backBtn,saveBtn;
+    private ImageView backBtn, saveBtn, planBtn;
     private Meal currentMeal;
 
     @Nullable
@@ -49,6 +52,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
         thumbnail = view.findViewById(R.id.thumbnail);
         backBtn = view.findViewById(R.id.backBtn);
         saveBtn = view.findViewById(R.id.saveBtn);
+        planBtn = view.findViewById(R.id.planBtn);
 
         presenter = new DetailsPresenter(this,new Repository(getContext()));
 
@@ -68,6 +72,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
                 Toast.makeText(getContext(), "Meal saved", Toast.LENGTH_SHORT).show();
             }
         });
+        planBtn.setOnClickListener(v -> showDatePickerDialog());
 
         return view;
     }
@@ -131,6 +136,30 @@ public class DetailsFragment extends Fragment implements DetailsView {
                 presenter.loadMealDetails(mealId);
             }
         }
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(selectedYear, selectedMonth, selectedDay);
+
+                    String formattedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                    presenter.scheduleMeal(currentMeal,selectedDate);
+                    Toast.makeText(getContext(), "Meal scheduled for " + formattedDate, Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "showDatePickerDialog: " + formattedDate);
+                },
+                year, month, day
+        );
+
+        datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        datePickerDialog.show();
     }
 
 }
