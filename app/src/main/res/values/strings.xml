@@ -17,4 +17,5 @@
     <string name="Plans">Plans</string>
     <string name="OnThisDay">On This Day</string>
     <string name="RecipeName">Recipe Name</string>
+    <string name="BasedOnIngredients">Based On Ingredients</string>
 </resources>

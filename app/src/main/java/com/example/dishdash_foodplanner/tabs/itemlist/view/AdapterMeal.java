@@ -41,7 +41,6 @@ public class AdapterMeal extends RecyclerView.Adapter<AdapterMeal.MealViewHolder
     public void onBindViewHolder(@NonNull MealViewHolder holder, int position) {
         Meal meal = meals.get(position);
         holder.title.setText(meal.strMeal);
-        holder.categoryArea.setText(meal.strCategory + " | " + meal.strArea);
         Glide.with(context).load(meal.strMealThumb)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.thumbnail);
@@ -57,13 +56,11 @@ public class AdapterMeal extends RecyclerView.Adapter<AdapterMeal.MealViewHolder
     public static class MealViewHolder extends RecyclerView.ViewHolder {
         ImageView thumbnail;
         TextView title;
-        TextView categoryArea;
 
         public MealViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
             title = itemView.findViewById(R.id.title);
-            categoryArea = itemView.findViewById(R.id.category_area);
         }
     }
 

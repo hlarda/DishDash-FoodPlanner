@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
+import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 import com.example.dishdash_foodplanner.network.APIs.Client;
@@ -60,6 +61,10 @@ public class Repository {
         client.getCategoriesList(callback);
     }
 
+    public void getIngredients(AppNetworkCallback<Ingredient> callback) {
+        client.getIngredientsList(callback);
+    }
+
     public void getRandomMeals(int count, AppNetworkCallback<Meal> callback) {
         client.getRandomMeals(count, callback);
     }
@@ -74,6 +79,10 @@ public class Repository {
 
     public void getMealsByArea(String area, AppNetworkCallback<Meal> callback) {
         client.getMealsByArea(area, callback);
+    }
+
+    public void getMealsByIngredient(String ingredient, AppNetworkCallback<Meal> callback) {
+        client.getMealsByIngredient(ingredient, callback);
     }
 
     public void scheduleMealForDate(MealPlan mealPlan) {

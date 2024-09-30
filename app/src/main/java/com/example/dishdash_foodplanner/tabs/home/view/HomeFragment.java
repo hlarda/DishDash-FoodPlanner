@@ -5,25 +5,28 @@ import static android.content.ContentValues.TAG;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Area;
 import com.example.dishdash_foodplanner.model.POJO.Category;
+import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.db.Repository;
-import com.example.dishdash_foodplanner.network.APIs.Client;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.home.presenter.HomePresenter;
 
-import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategory.CategoryClickListener;
+import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategoryIngredient.CategoryClickListener;
+import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategoryIngredient.ItemClickListener;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterArea.AreaClickListener;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal.MealClickListener;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
@@ -32,17 +35,19 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements HomeView, CategoryClickListener, AreaClickListener, MealClickListener {
+public class HomeFragment extends Fragment implements HomeView, CategoryClickListener, AreaClickListener, MealClickListener, ItemClickListener<Category>{
 
     private HomePresenter presenter;
     private AdapterArea adapterArea;
-    private AdapterCategory adapterCategory;
+    private AdapterCategoryIngredient<Category> adapterCategory;
+    private AdapterCategoryIngredient<Ingredient> adapterIngredient;
     private AdapterMeal adapterMeal;
     private List<Area> areas = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
     private List<Meal> randomList = new ArrayList<>();
     private ItemListFragment itemListFragment;
-    private ProgressBar progressBarArea, progressBarCategory, progressBarMeal;
+    private ProgressBar progressBarArea, progressBarCategory, progressBarMeal, progressBarIngredient;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,9 +70,27 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         areaRecyclerView.setAdapter(adapterArea);
 
         RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryList);
-        adapterCategory = new AdapterCategory(getContext(), categories, this);
+        adapterCategory = new AdapterCategoryIngredient<>(getContext(), categories, this);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         categoryRecyclerView.setAdapter(adapterCategory);
+
+        RecyclerView ingredientRecyclerView = view.findViewById(R.id.ingredientList);
+        adapterIngredient = new AdapterCategoryIngredient<>(getContext(), ingredients, new ItemClickListener<Ingredient>() {
+            @Override
+            public void onItemClicked(Ingredient item) {
+                Bundle bundle = new Bundle();
+                bundle.putString("selectedIngredient", item.strIngredient);
+                itemListFragment = new ItemListFragment();
+                itemListFragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.contentFrame, itemListFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL);
+        ingredientRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        ingredientRecyclerView.setAdapter(adapterIngredient);
 
         RecyclerView mealRecyclerView = view.findViewById(R.id.pickedList);
         adapterMeal = new AdapterMeal(getContext(), randomList, this);
@@ -77,10 +100,12 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         progressBarArea = view.findViewById(R.id.progressBarArea);
         progressBarCategory = view.findViewById(R.id.progressBarCategory);
         progressBarMeal = view.findViewById(R.id.progressBarMeal);
+        progressBarIngredient = view.findViewById(R.id.progressBarIngredient);
 
         showLoading();
         presenter.loadAreas();
         presenter.loadCategories();
+        presenter.loadIngredients();
         presenter.loadRandomMeals();
 
         return view;
@@ -90,12 +115,14 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         progressBarArea.setVisibility(View.VISIBLE);
         progressBarCategory.setVisibility(View.VISIBLE);
         progressBarMeal.setVisibility(View.VISIBLE);
+        progressBarIngredient.setVisibility(View.VISIBLE);
     }
 
     private void hideLoading() {
         progressBarArea.setVisibility(View.GONE);
         progressBarCategory.setVisibility(View.GONE);
         progressBarMeal.setVisibility(View.GONE);
+        progressBarIngredient.setVisibility(View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -114,6 +141,15 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         this.categories.addAll(categories);
         adapterCategory.notifyDataSetChanged();
         progressBarCategory.setVisibility(View.GONE);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void showIngredients(List<Ingredient> ingredients) {
+        this.ingredients.clear();
+        this.ingredients.addAll(ingredients);
+        adapterIngredient.notifyDataSetChanged();
+        progressBarIngredient.setVisibility(View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -167,9 +203,15 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
                 .commit();
     }
 
+    @Override
+    public void onItemClicked(Category item) {
+        onCategoryClicked(item);
+    }
+
     public void reloadData() {
         presenter.loadAreas();
         presenter.loadCategories();
+        presenter.loadIngredients();
         presenter.loadRandomMeals();
     }
 }

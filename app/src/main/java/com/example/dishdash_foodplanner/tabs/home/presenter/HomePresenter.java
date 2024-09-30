@@ -1,5 +1,6 @@
 package com.example.dishdash_foodplanner.tabs.home.presenter;
 
+import com.example.dishdash_foodplanner.model.POJO.Ingredient;
 import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.tabs.home.view.HomeView;
 import com.example.dishdash_foodplanner.model.POJO.Area;
@@ -51,6 +52,20 @@ public class HomePresenter {
             @Override
             public void onSuccess(List<Meal> response) {
                 view.showRandomList(response);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                view.showError(error);
+            }
+        });
+    }
+
+    public void loadIngredients() {
+        repository.getIngredients(new AppNetworkCallback<Ingredient>() {
+            @Override
+            public void onSuccess(List<Ingredient> response) {
+                view.showIngredients(response);
             }
 
             @Override
