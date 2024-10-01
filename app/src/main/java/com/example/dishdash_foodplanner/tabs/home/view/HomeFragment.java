@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
 
         RecyclerView areaRecyclerView = view.findViewById(R.id.areaList);
         adapterArea = new AdapterArea(getContext(), areas, this);
-        areaRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        areaRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         areaRecyclerView.setAdapter(adapterArea);
 
         RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryList);
