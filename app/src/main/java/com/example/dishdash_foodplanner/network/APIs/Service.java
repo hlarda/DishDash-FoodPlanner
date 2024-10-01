@@ -34,4 +34,11 @@ public interface Service {
 
     @GET("lookup.php")
     Call<NetworkResponse<Meal>> getMealById(@Query("i") String mealId);
+
+    @GET("search.php")
+    Call<NetworkResponse<Meal>> searchMealsByName(@Query("s") String mealName);
+
+    @GET("search.php")
+    Call<NetworkResponse<Meal>> getMealsByFirstLetter(@Query("f") String firstLetter);
+
 }

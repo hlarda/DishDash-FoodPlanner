@@ -96,4 +96,8 @@ public class Repository {
     public void deleteMealPlan(MealPlan mealPlan) {
         executorService.execute(() -> mealPlanDAO.deleteMealPlan(mealPlan));
     }
+
+    public void searchMealsByName(String mealName, AppNetworkCallback<Meal> callback) {
+        client.searchMealsByName(mealName, callback);
+    }
 }
