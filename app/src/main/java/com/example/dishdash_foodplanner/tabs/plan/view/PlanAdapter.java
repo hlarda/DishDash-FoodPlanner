@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dishdash_foodplanner.R;
-import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
 import java.util.ArrayList;

@@ -1,10 +1,13 @@
 package com.example.dishdash_foodplanner;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.dishdash_foodplanner.network.APIs.NetworkChangeReceiver;
-import com.example.dishdash_foodplanner.tabs.cart.view.CartFragment;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.home.view.HomeFragment;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
@@ -90,9 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
             selectedFragment = new HomeFragment();
         } else if (itemId == R.id.nav_search) {
             selectedFragment = new SearchFragment();
-        } else if (itemId == R.id.nav_cart) {
-            selectedFragment = new CartFragment();
-        } else if (itemId == R.id.nav_fav) {
+        }  else if (itemId == R.id.nav_save) {
             selectedFragment = new SavedMealsFragment();
         } else if (itemId == R.id.nav_plan) {
             selectedFragment = new PlanFragment();
@@ -155,6 +155,26 @@ public class NavigationActivity extends AppCompatActivity {
             ((DetailsFragment) currentFragment).reloadData();
         } else if (currentFragment instanceof ItemListFragment) {
             ((ItemListFragment) currentFragment).reloadData();
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        Log.i(TAG, "Back");
+        // If the current fragment is a "root" fragment, finish the activity
+        if (currentFragment instanceof HomeFragment ||
+                currentFragment instanceof SearchFragment ||
+                currentFragment instanceof SavedMealsFragment ||
+                currentFragment instanceof PlanFragment) {
+            finish();  // Exit the app when on root fragments
+        } else {
+            Log.i(TAG, "onBackPressed: Other");
+            // Otherwise, pop the back stack (i.e., go back to the previous fragment)
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 }
