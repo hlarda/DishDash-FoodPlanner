@@ -5,5 +5,5 @@ import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
 public interface PlanListener {
     void onRemoveFromPlanClicked(MealPlan mealPlan);
-    void onMealClicked(Meal meal);
+    void onMealClicked(MealPlan mealPlan);
 }

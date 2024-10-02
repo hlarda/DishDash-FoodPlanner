@@ -21,4 +21,7 @@ public interface MealSaveDAO {
 
     @Delete
     void deleteMeal(Meal Meal);
+
+    @Query("SELECT * FROM fav_meals_table WHERE idMeal = :mealId")
+    Meal getMeal(String mealId);
 }

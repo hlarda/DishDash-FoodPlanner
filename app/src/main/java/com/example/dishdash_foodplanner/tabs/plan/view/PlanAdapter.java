@@ -54,6 +54,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.SavedViewHolde
             Log.d(TAG, "Remove button clicked for mealPlan: " + mealPlan.strMeal);
             listener.onRemoveFromPlanClicked(mealPlan);
         });
+        holder.itemView.setOnClickListener(v -> listener.onMealClicked(mealPlan));
     }
 
     @Override

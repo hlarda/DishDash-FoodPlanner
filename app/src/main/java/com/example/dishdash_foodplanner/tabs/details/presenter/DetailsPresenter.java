@@ -46,6 +46,40 @@ public class DetailsPresenter {
         repository.insertSavedMeal(meal);
     }
 
+    public void loadSavedMeal(String mealId) {
+        repository.getSavedMeal(mealId, new AppNetworkCallback<Meal>() {
+            @Override
+            public void onSuccess(List<Meal> meals) {
+                if (!meals.isEmpty()) {
+                    view.showMealDetails(meals.get(0));
+                } else {
+                    view.showError("Meal not found");
+                }
+            }
+            @Override
+            public void onFailure(String errorMsg) {
+                view.showError(errorMsg);
+            }
+        });
+    }
+
+    public void loadPlannedMeal(String mealId) {
+        repository.getPlannedMeal(mealId, new AppNetworkCallback<Meal>() {
+            @Override
+            public void onSuccess(List<Meal> meals) {
+                if (!meals.isEmpty()) {
+                    view.showMealDetails(meals.get(0));
+                } else {
+                    view.showError("Meal not found");
+                }
+            }
+            @Override
+            public void onFailure(String errorMsg) {
+                view.showError(errorMsg);
+            }
+        });
+    }
+
     public void scheduleMeal(Meal meal, Date selectedDate) {
         MealPlan mealPlan = new MealPlan(
                 selectedDate, meal.idMeal, meal.strMeal,

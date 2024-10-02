@@ -67,8 +67,15 @@ public class DetailsFragment extends Fragment implements DetailsView {
         Bundle bundle = getArguments();
         if (bundle != null) {
             String mealId = bundle.getString("mealId");
+            String source = bundle.getString("source");
             if (mealId != null) {
-                presenter.loadMealDetails(mealId);
+                if        ("saved".equals(source)){
+                    presenter.loadSavedMeal(mealId);
+                } else if ("plan".equals(source) ){
+                    presenter.loadPlannedMeal(mealId);
+                } else {
+                    presenter.loadMealDetails(mealId);
+                }
             }
         }
 

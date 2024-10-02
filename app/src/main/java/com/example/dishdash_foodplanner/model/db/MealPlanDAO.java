@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 
 import java.util.Date;
@@ -23,8 +24,9 @@ public interface MealPlanDAO {
     @Delete
     void deleteMealPlan(MealPlan mealPlan);
 
-
     @Query("SELECT * FROM meal_plan_table WHERE date BETWEEN :startOfDay AND :endOfDay")
     LiveData<List<MealPlan>> getMealForDay(Date startOfDay, Date endOfDay);
 
+    @Query("SELECT * FROM meal_plan_table WHERE idMeal = :mealId")
+    Meal getMeal(String mealId);
 }

@@ -100,4 +100,30 @@ public class Repository {
     public void searchMealsByName(String mealName, AppNetworkCallback<Meal> callback) {
         client.searchMealsByName(mealName, callback);
     }
+
+    public void getSavedMeal(String mealId, AppNetworkCallback<Meal> callback) {
+        executorService.execute(() -> {
+            Meal meal = mealSaveDAO.getMeal(mealId);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (meal != null) {
+                    callback.onSuccess(List.of(meal));
+                } else {
+                    callback.onFailure("Meal not found");
+                }
+            });
+        });
+    }
+
+    public void getPlannedMeal(String mealId, AppNetworkCallback<Meal> callback) {
+        executorService.execute(() -> {
+            Meal meal = mealPlanDAO.getMeal(mealId);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (meal != null) {
+                    callback.onSuccess(List.of(meal));
+                } else {
+                    callback.onFailure("Meal not found");
+                }
+            });
+        });
+    }
 }

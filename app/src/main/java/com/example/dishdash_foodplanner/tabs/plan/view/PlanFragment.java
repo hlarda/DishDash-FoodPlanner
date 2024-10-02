@@ -6,6 +6,7 @@ import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.POJO.MealPlan;
 import com.example.dishdash_foodplanner.model.db.Repository;
+import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.plan.presenter.PlanPresenter;
 
 import android.os.Bundle;
@@ -114,7 +115,16 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
     }
 
     @Override
-    public void onMealClicked(Meal meal) {
-        Log.i(TAG, "onMealClicked: " + meal.strMeal);
+    public void onMealClicked(MealPlan mealPlan) {
+        Log.i(TAG, "onMealClicked: " + mealPlan.strMeal);
+        Bundle bundle = new Bundle();
+        bundle.putString("mealId", mealPlan.idMeal);
+        bundle.putString("source", "plan");
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, detailsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

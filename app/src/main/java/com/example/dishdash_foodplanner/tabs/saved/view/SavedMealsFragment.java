@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.db.Repository;
+import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.home.view.HomeFragment;
 import com.example.dishdash_foodplanner.tabs.saved.presenter.SavedPresenter;
 
@@ -57,7 +58,15 @@ public class SavedMealsFragment extends Fragment implements SavedView, SavedList
 
     @Override
     public void onMealClicked(Meal meal) {
-        Log.i(TAG, "onMealClicked: " + meal.strMeal);
+        Bundle bundle = new Bundle();
+        bundle.putString("mealId", meal.idMeal);
+        bundle.putString("source", "saved");
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, detailsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
