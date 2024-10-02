@@ -19,12 +19,14 @@ import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
+import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
+import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal;
 import com.example.dishdash_foodplanner.tabs.search.adapter.SearchAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchAdapter.MealClickListener {
 
     private SearchView    searchView;
     private RecyclerView  searchResultsRecyclerView;
@@ -41,7 +43,7 @@ public class SearchFragment extends Fragment {
         searchResultsRecyclerView = view.findViewById(R.id.searchResultsRecyclerView);
         noResultsImage = view.findViewById(R.id.noResultsImage);
 
-        searchAdapter = new SearchAdapter(new ArrayList<>());
+        searchAdapter = new SearchAdapter(new ArrayList<>(), this);
         searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         searchResultsRecyclerView.setAdapter(searchAdapter);
 
@@ -96,5 +98,17 @@ public class SearchFragment extends Fragment {
                 searchResultsRecyclerView.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    public void onMealClicked(Meal meal) {
+        Bundle bundle = new Bundle();
+        bundle.putString("mealId", meal.idMeal);
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, detailsFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

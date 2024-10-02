@@ -12,15 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.dishdash_foodplanner.R;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
+import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal;
 
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     private List<Meal> meals;
+    private final MealClickListener listener;
 
-    public SearchAdapter(List<Meal> meals) {
+    public SearchAdapter(List<Meal> meals, MealClickListener listener) {
         this.meals = meals;
+        this.listener = listener;
     }
 
     @NonNull
@@ -37,6 +40,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Glide.with(holder.itemView.getContext())
                 .load(meal.strMealThumb)
                 .into(holder.mealImage);
+        holder.itemView.setOnClickListener(v -> listener.onMealClicked(meal));
     }
 
     @Override
@@ -59,5 +63,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             mealImage = itemView.findViewById(R.id.thumbnail);
             mealTitle = itemView.findViewById(R.id.title);
         }
+    }
+
+    public interface MealClickListener {
+        void onMealClicked(Meal meal);
     }
 }
