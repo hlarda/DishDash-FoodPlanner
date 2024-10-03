@@ -31,6 +31,7 @@ import com.example.dishdash_foodplanner.tabs.home.view.AdapterArea.AreaClickList
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal.MealClickListener;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +49,9 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     private List<Meal> randomList = new ArrayList<>();
     private ItemListFragment itemListFragment;
     private ProgressBar progressBarArea, progressBarCategory, progressBarMeal, progressBarIngredient;
+    private SearchView searchCategories, searchIngredients, searchAreas;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public HomeFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,11 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         presenter.loadCategories();
         presenter.loadIngredients();
         presenter.loadRandomMeals();
+
+        searchIngredients = view.findViewById(R.id.searchIngredients);
+        searchCategories  = view.findViewById(R.id.searchCategories);
+        searchAreas       = view.findViewById(R.id.searchAreas);
+        setupSearchListeners();
 
         return view;
     }
@@ -213,5 +218,46 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         presenter.loadCategories();
         presenter.loadIngredients();
         presenter.loadRandomMeals();
+    }
+
+    private void setupSearchListeners() {
+        searchIngredients.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.filterIngredients(newText);
+                return true;
+            }
+        });
+
+        searchCategories.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.filterCategories(newText);
+                return true;
+            }
+        });
+
+        searchAreas.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.filterAreas(newText);
+                return true;
+            }
+        });
     }
 }

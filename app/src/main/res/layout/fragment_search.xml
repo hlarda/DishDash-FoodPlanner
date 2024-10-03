@@ -24,8 +24,10 @@
         android:layout_marginEnd="20dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        tools:listitem="@layout/card_search" />
 
     <ImageView
         android:id="@+id/noResultsImage"
@@ -40,5 +42,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
+
+    <!-- <Spinner
+        android:id="@+id/spinner_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/select_ingredient"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_category"
+        app:layout_constraintStart_toEndOf="@+id/spinner_category"
+        app:layout_constraintTop_toTopOf="@+id/spinner_category" />
+
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:prompt="@string/select_category"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_area"
+        app:layout_constraintStart_toEndOf="@+id/spinner_area"
+        app:layout_constraintTop_toTopOf="@+id/spinner_area" />
+
+    <Spinner
+        android:id="@+id/spinner_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:prompt="@string/select_area"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <ImageView
+        android:id="@+id/filterBtn"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_ingredient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinner_ingredient"
+        app:srcCompat="@drawable/filter" /> -->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,11 +8,15 @@ import com.example.dishdash_foodplanner.model.POJO.Category;
 import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomePresenter {
     private final HomeView view;
     private final Repository repository;
+    private List<Area> allAreas = new ArrayList<>();
+    private List<Category> allCategories = new ArrayList<>();
+    private List<Ingredient> allIngredients = new ArrayList<>();
 
     public HomePresenter(HomeView view, Repository repository) {
         this.view = view;
@@ -23,6 +27,8 @@ public class HomePresenter {
         repository.getAreas(new AppNetworkCallback<Area>() {
             @Override
             public void onSuccess(List<Area> response) {
+                allAreas.clear();
+                allAreas.addAll(response);
                 view.showAreas(response);
             }
 
@@ -37,6 +43,8 @@ public class HomePresenter {
         repository.getCategories(new AppNetworkCallback<Category>() {
             @Override
             public void onSuccess(List<Category> response) {
+                allCategories.clear();
+                allCategories.addAll(response);
                 view.showCategories(response);
             }
 
@@ -65,6 +73,8 @@ public class HomePresenter {
         repository.getIngredients(new AppNetworkCallback<Ingredient>() {
             @Override
             public void onSuccess(List<Ingredient> response) {
+                allIngredients.clear();
+                allIngredients.addAll(response);
                 view.showIngredients(response);
             }
 
@@ -73,5 +83,35 @@ public class HomePresenter {
                 view.showError(error);
             }
         });
+    }
+
+    public void filterAreas(String query) {
+        List<Area> filteredList = new ArrayList<>();
+        for (Area area : allAreas) {
+            if (area.strArea.toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(area);
+            }
+        }
+        view.showAreas(filteredList);
+    }
+
+    public void filterCategories(String query) {
+        List<Category> filteredList = new ArrayList<>();
+        for (Category category : allCategories) {
+            if (category.strCategory.toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(category);
+            }
+        }
+        view.showCategories(filteredList);
+    }
+
+    public void filterIngredients(String query) {
+        List<Ingredient> filteredList = new ArrayList<>();
+        for (Ingredient ingredient : allIngredients) {
+            if (ingredient.strIngredient.toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(ingredient);
+            }
+        }
+        view.showIngredients(filteredList);
     }
 }
