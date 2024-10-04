@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
@@ -64,6 +66,23 @@ public class NavigationActivity extends AppCompatActivity {
         });
 
         handler = new Handler(Looper.getMainLooper());
+
+        setStatusBarTextColor();
+    }
+
+    private void setStatusBarTextColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (isDarkTheme()) {
+                getWindow().getDecorView().setSystemUiVisibility(0); // Clear the flag for dark mode
+            } else {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR); // Set the flag for light mode
+            }
+        }
+    }
+
+    private boolean isDarkTheme() {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @Override
