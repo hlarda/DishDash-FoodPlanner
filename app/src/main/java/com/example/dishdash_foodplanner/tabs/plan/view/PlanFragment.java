@@ -24,6 +24,7 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -77,24 +78,21 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
     public void showPlannedMeals(List<MealPlan> mealPlans) {
         Log.d(TAG, "Planned meals size: " + mealPlans.size());
 
-        // Always clear the current adapter before loading new data
-        if (adapter != null) {
-            adapter.clearMealPlans();
-        }
-
-        if (mealPlans == null || mealPlans.isEmpty()) {
-            Log.d(TAG, "No meals for the selected date.");
-            return;
-        }
-
-        // Set new data to the adapter
         if (adapter == null) {
-            adapter = new PlanAdapter(getContext(), mealPlans, this);
+            adapter = new PlanAdapter(getContext(), new ArrayList<>(), this);
             recyclerView.setAdapter(adapter);
-        } else {
+        }
+
+        adapter.clearMealPlans();
+
+        if (mealPlans != null && !mealPlans.isEmpty()) {
             adapter.updateMealPlans(mealPlans);
+        } else {
+            adapter.updateMealPlans(new ArrayList<>()); 
+            Log.d(TAG, "No meals planned for the selected date.");
         }
     }
+
 
     @Override
     public void onRemoveFromPlanClicked(MealPlan mealPlan) {

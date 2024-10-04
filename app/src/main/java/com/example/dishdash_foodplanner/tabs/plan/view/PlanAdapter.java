@@ -86,7 +86,8 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.SavedViewHolde
 
     @SuppressLint("NotifyDataSetChanged")
     public void clearMealPlans() {
-        this.mealPlans = new ArrayList<>();
+        this.mealPlans.clear();
         notifyDataSetChanged();
     }
+
 }

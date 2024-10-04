@@ -14,6 +14,7 @@ import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.tabs.plan.view.PlanView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -50,15 +51,14 @@ public class PlanPresenter {
         plannedMeals.observeForever(new Observer<List<MealPlan>>() {
             @Override
             public void onChanged(List<MealPlan> mealPlans) {
-                if (mealPlans != null && !mealPlans.isEmpty()) {
-                    view.showPlannedMeals(mealPlans);
+                if (mealPlans == null || mealPlans.isEmpty()) {
+                    view.showPlannedMeals(new ArrayList<>());  // Pass an empty list if no plans are found
                 } else {
-                    view.showError("No meals planned for this day");
+                    view.showPlannedMeals(mealPlans);
                 }
             }
         });
     }
-
 
     public void removeMealFromDate(MealPlan mealPlan) {
         repository.deleteMealPlan(mealPlan);
