@@ -1,4 +1,4 @@
-package com.example.dishdash_foodplanner.tabs.search.adapter;
+package com.example.dishdash_foodplanner.tabs.search.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
