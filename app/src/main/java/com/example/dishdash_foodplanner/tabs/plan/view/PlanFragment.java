@@ -9,6 +9,7 @@ import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
 import com.example.dishdash_foodplanner.tabs.plan.presenter.PlanPresenter;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,10 +102,15 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
 
     @Override
     public void onRemoveFromPlanClicked(MealPlan mealPlan) {
-        presenter.removeMealFromDate(mealPlan);
-        Log.d(TAG, "onRemoveFromPlanClicked: " + mealPlan.strMeal);
-
-        presenter.loadPlansForDate(selectedDate);
+        new AlertDialog.Builder(getContext())
+                .setTitle("Remove Meal")
+                .setMessage("Are you sure you want to remove this plan?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    presenter.removeMealFromDate(mealPlan);
+                    presenter.loadPlansForDate(selectedDate);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss()).show();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.dishdash_foodplanner.tabs.saved.view;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,14 @@ public class SavedMealsFragment extends Fragment implements SavedView, SavedList
 
     @Override
     public void onRemoveFromSavedClicked(Meal meal) {
-        presenter.removeFromSaved(meal);
+        new AlertDialog.Builder(getContext())
+                .setTitle("Remove Meal")
+                .setMessage("Are you sure you want to remove this meal from saved?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    presenter.removeFromSaved(meal);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss()).show();
     }
 
     @Override
