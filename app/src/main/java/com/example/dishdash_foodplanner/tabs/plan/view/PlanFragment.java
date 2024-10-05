@@ -57,7 +57,7 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
 
-            Date selectedDate = calendar.getTime();
+            selectedDate = calendar.getTime();
             presenter.loadPlansForDate(selectedDate);
         });
 
@@ -99,13 +99,8 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
         presenter.removeMealFromDate(mealPlan);
         Log.d(TAG, "onRemoveFromPlanClicked: " + mealPlan.strMeal);
 
-        if (adapter != null) {
-            adapter.clearMealPlans();
-        }
-
         presenter.loadPlansForDate(selectedDate);
     }
-
 
     @Override
     public void showError(String error) {
