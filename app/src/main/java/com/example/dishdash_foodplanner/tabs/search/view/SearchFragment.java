@@ -20,8 +20,7 @@ import com.example.dishdash_foodplanner.model.POJO.Meal;
 import com.example.dishdash_foodplanner.model.db.Repository;
 import com.example.dishdash_foodplanner.network.response.AppNetworkCallback;
 import com.example.dishdash_foodplanner.tabs.details.view.DetailsFragment;
-import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal;
-import com.example.dishdash_foodplanner.tabs.search.adapter.SearchAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;

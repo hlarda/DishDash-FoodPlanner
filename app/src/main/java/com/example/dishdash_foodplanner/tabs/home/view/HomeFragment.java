@@ -103,10 +103,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         progressBarIngredient = view.findViewById(R.id.progressBarIngredient);
 
         showLoading();
-        presenter.loadAreas();
-        presenter.loadCategories();
-        presenter.loadIngredients();
-        presenter.loadRandomMeals();
+        reloadData();
 
         searchIngredients = view.findViewById(R.id.searchIngredients);
         searchCategories  = view.findViewById(R.id.searchCategories);

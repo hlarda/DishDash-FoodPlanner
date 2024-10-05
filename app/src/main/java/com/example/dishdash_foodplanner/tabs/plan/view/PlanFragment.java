@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class PlanFragment extends Fragment implements PlanView, PlanListener {
     private CalendarView calendarView;
     private RecyclerView recyclerView;
-    private ImageView backBtn;
+    private ImageView backBtn, nothing;
     private PlanAdapter adapter;
     private Date selectedDate;
     private PlanPresenter presenter;
@@ -43,6 +43,7 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
 
         backBtn = view.findViewById(R.id.backBtn);
+        nothing = view.findViewById(R.id.nothingImg);
         recyclerView = view.findViewById(R.id.planList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -87,8 +88,12 @@ public class PlanFragment extends Fragment implements PlanView, PlanListener {
 
         if (mealPlans != null && !mealPlans.isEmpty()) {
             adapter.updateMealPlans(mealPlans);
+            nothing.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         } else {
-            adapter.updateMealPlans(new ArrayList<>()); 
+            adapter.updateMealPlans(new ArrayList<>());
+            nothing.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
             Log.d(TAG, "No meals planned for the selected date.");
         }
     }

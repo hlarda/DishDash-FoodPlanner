@@ -168,8 +168,6 @@ public class NavigationActivity extends AppCompatActivity {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (currentFragment instanceof HomeFragment) {
             ((HomeFragment) currentFragment).reloadData();
-        } else if (currentFragment instanceof SearchFragment) {
-//            ((SearchFragment) currentFragment).reloadData();
         } else if (currentFragment instanceof DetailsFragment) {
             ((DetailsFragment) currentFragment).reloadData();
         } else if (currentFragment instanceof ItemListFragment) {

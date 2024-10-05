@@ -30,7 +30,7 @@ public class SavedMealsFragment extends Fragment implements SavedView, SavedList
     RecyclerView.LayoutManager layoutManager;
     SavedAdapter adapter;
     SavedPresenter presenter;
-    ImageView backBtn;
+    ImageView backBtn, nothing;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +47,9 @@ public class SavedMealsFragment extends Fragment implements SavedView, SavedList
 
         presenter = new SavedPresenter(this, new Repository(getContext()));
         presenter.loadSavedMeals();
+
+        nothing = view.findViewById(R.id.nothingSaved);
+
 
         return view;
     }
@@ -71,8 +74,15 @@ public class SavedMealsFragment extends Fragment implements SavedView, SavedList
 
     @Override
     public void showSavedMeals(List<Meal> meals) {
-        adapter = new SavedAdapter(getContext(), meals, this);
-        recyclerView.setAdapter(adapter);
+        if (meals.size() == 0) {
+            nothing.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            nothing.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter = new SavedAdapter(getContext(), meals, this);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
