@@ -30,6 +30,8 @@ import com.example.dishdash_foodplanner.tabs.home.view.AdapterCategoryIngredient
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterArea.AreaClickListener;
 import com.example.dishdash_foodplanner.tabs.home.view.AdapterMeal.MealClickListener;
 import com.example.dishdash_foodplanner.tabs.itemlist.view.ItemListFragment;
+
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
     private ItemListFragment itemListFragment;
     private ProgressBar progressBarArea, progressBarCategory, progressBarMeal, progressBarIngredient;
     private SearchView searchCategories, searchIngredients, searchAreas;
+    private ImageView noIngredients, noCategories, noAreas;
 
     public HomeFragment() {}
 
@@ -110,6 +113,10 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         searchAreas       = view.findViewById(R.id.searchAreas);
         setupSearchListeners();
 
+        noIngredients = view.findViewById(R.id.noIngredient);
+        noCategories = view.findViewById(R.id.noCategory);
+        noAreas = view.findViewById(R.id.noArea);
+
         return view;
     }
 
@@ -134,6 +141,8 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         this.areas.addAll(areas);
         adapterArea.notifyDataSetChanged();
         progressBarArea.setVisibility(View.GONE);
+        noAreas.setVisibility(areas.isEmpty() ? View.VISIBLE : View.GONE);
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -143,6 +152,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         this.categories.addAll(categories);
         adapterCategory.notifyDataSetChanged();
         progressBarCategory.setVisibility(View.GONE);
+        noCategories.setVisibility(categories.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -152,6 +162,7 @@ public class HomeFragment extends Fragment implements HomeView, CategoryClickLis
         this.ingredients.addAll(ingredients);
         adapterIngredient.notifyDataSetChanged();
         progressBarIngredient.setVisibility(View.GONE);
+        noIngredients.setVisibility(ingredients.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -35,6 +35,20 @@
             tools:listitem="@layout/card_ingredient"
             tools:spanCount="2" />
 
+        <ImageView
+            android:id="@+id/noIngredient"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientsTitle"
+            app:srcCompat="@drawable/no_results"
+            tools:visibility="visible" />
+
         <TextView
             android:id="@+id/catTitle"
             android:layout_width="wrap_content"
@@ -50,7 +64,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryList"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="260dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,12 +75,27 @@
             tools:listitem="@layout/card_category"
             tools:orientation="horizontal" />
 
+        <ImageView
+            android:id="@+id/noCategory"
+            android:layout_width="0dp"
+            android:layout_height="260dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/atitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/catTitle"
+            app:srcCompat="@drawable/no_results"
+            tools:visibility="visible" />
+
+
         <TextView
             android:id="@+id/atitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
             android:text="@string/area"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -87,6 +116,22 @@
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/card_area"
             tools:orientation="vertical" />
+
+
+        <ImageView
+            android:id="@+id/noArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/atitle"
+            app:srcCompat="@drawable/no_results"
+            tools:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/progressBarArea"
@@ -178,7 +223,6 @@
             android:id="@+id/searchAreas"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/atitle"
