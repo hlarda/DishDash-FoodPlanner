@@ -207,6 +207,11 @@ public class DetailsFragment extends Fragment implements DetailsView {
             String formattedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
             presenter.scheduleMeal(currentMeal, selectedDate);
             Toast.makeText(getContext(), "Meal scheduled for " + formattedDate, Toast.LENGTH_SHORT).show();
+
+            //add to local calendar
+            long startTime = calendar.getTimeInMillis();
+            long endTime = startTime + 60 * 60 * 1000; // 1 hour duration
+            presenter.addMealToCalendar(getContext(), currentMeal.strMeal, "Meal: " + currentMeal.strMeal, startTime, endTime);
         },
                 year, month, day
         );

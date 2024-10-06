@@ -2,8 +2,10 @@ package com.example.dishdash_foodplanner;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.dishdash_foodplanner.network.APIs.NetworkChangeReceiver;
@@ -35,6 +39,9 @@ public class NavigationActivity extends AppCompatActivity {
     private boolean wasConnected = false;
     private boolean isActivityResumed = false; 
     private NetworkChangeReceiver networkChangeReceiver;
+
+    private static final int REQUEST_WRITE_CALENDAR = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,10 @@ public class NavigationActivity extends AppCompatActivity {
         handler = new Handler(Looper.getMainLooper());
 
         setStatusBarTextColor();
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_WRITE_CALENDAR);
+        }
     }
 
     private void setStatusBarTextColor() {

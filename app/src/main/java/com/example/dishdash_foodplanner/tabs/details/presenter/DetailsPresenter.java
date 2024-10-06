@@ -2,6 +2,10 @@ package com.example.dishdash_foodplanner.tabs.details.presenter;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -92,5 +96,20 @@ public class DetailsPresenter {
                 meal.strMeasure1, meal.strMeasure2, meal.strMeasure3, meal.strMeasure4, meal.strMeasure5, meal.strMeasure6, meal.strMeasure7, meal.strMeasure8, meal.strMeasure9, meal.strMeasure10
         );
         repository.scheduleMealForDate(mealPlan);
+    }
+
+    public void addMealToCalendar(Context context, String title, String description, long startTime, long endTime) {
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.DTSTART, startTime);
+        values.put(CalendarContract.Events.DTEND, endTime);
+        values.put(CalendarContract.Events.TITLE, title);
+        values.put(CalendarContract.Events.DESCRIPTION, description);
+        values.put(CalendarContract.Events.CALENDAR_ID, 1);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
+
+        Uri uri = context.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        if (uri != null) {
+            long eventId = Long.parseLong(uri.getLastPathSegment());
+        }
     }
 }
